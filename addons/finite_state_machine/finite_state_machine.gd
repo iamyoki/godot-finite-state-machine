@@ -11,8 +11,8 @@ var _states: Dictionary[String, State]
 signal transitioned(from: State, to: State)
 
 func _ready() -> void:
-	child_entered_tree.connect(_sync_states_from_tree)
-	child_exiting_tree.connect(_sync_states_from_tree)
+	child_entered_tree.connect(func(_node): _sync_states_from_tree())
+	child_exiting_tree.connect(func(_node): _sync_states_from_tree())
 	_sync_states_from_tree()
 	if current_state:
 		current_state.enter()
