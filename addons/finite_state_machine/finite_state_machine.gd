@@ -12,10 +12,13 @@ signal transitioned(from: State, to: State)
 
 func _get_configuration_warnings() -> PackedStringArray:
 	var warnings = PackedStringArray()
-	for state in get_children():
-		if state is State:
-			if state.get_script() == State:
-				warnings.append('%s: Right click and select "Extend Script" to extend the state behavior' % state.name)
+	var children = get_children()
+	if children.is_empty():
+		warnings.append('Please add some State nodes, and extend the script to define it\'s lifecycle behavior')
+	for node in children:
+		if node is State:
+			if node.get_script() == State:
+				warnings.append('%s: Right click and select "Extend Script" to extend the state behavior' % node.name)
 	return warnings
 
 func _init() -> void:
@@ -33,10 +36,10 @@ func _init() -> void:
 
 func _ready() -> void:
 	#register states
-	for child in get_children():
-		if child is State:
-			_states[child.name] = child
-			child.set('_finite_state_machine', self)
+	for node in get_children():
+		if node is State:
+			_states[node.name] = node
+			node.set('_finite_state_machine', self)
 
 	_sync_initial_state()
 	
