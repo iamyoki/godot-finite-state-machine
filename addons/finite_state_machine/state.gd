@@ -6,8 +6,7 @@
 class_name State
 extends Node
 
-## Notify when this state switched (->to)
-signal transitioned(to: String)
+var _finite_state_machine: FiniteStateMachine
 
 func enter():
 	pass
@@ -24,4 +23,5 @@ func exit():
 	pass
 
 func transition(to: String):
-	transitioned.emit(to)
+	if _finite_state_machine:
+		_finite_state_machine.transition(to)
