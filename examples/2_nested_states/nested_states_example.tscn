@@ -1,0 +1,85 @@
+[gd_scene format=3 uid="uid://exna7ba3ewnn"]
+
+[ext_resource type="Script" uid="uid://doejhfgthu4ky" path="res://addons/finite_state_machine/finite_state_machine.gd" id="1_2n6lx"]
+[ext_resource type="Script" uid="uid://bmt6q87wbvh6h" path="res://examples/2_nested_states/tree.gd" id="1_qbqeo"]
+[ext_resource type="Script" uid="uid://2y37yx57ooc4" path="res://addons/finite_state_machine/state.gd" id="2_8q5c7"]
+
+[node name="NestedStatesExample" type="Control" unique_id=2072044019]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="." unique_id=648423786]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -103.0
+offset_top = -141.0
+offset_right = 103.0
+offset_bottom = -118.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Current State: Ground/Idle"
+
+[node name="Tree" type="Tree" parent="." unique_id=47669107]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -110.0
+offset_top = -103.0
+offset_right = 110.0
+offset_bottom = 129.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/inner_item_margin_left = 8
+hide_folding = true
+hide_root = true
+script = ExtResource("1_qbqeo")
+
+[node name="FiniteStateMachine" type="Node" parent="." unique_id=2075670008 node_paths=PackedStringArray("initial_state")]
+script = ExtResource("1_2n6lx")
+initial_state = NodePath("Ground/Idle")
+metadata/_custom_type_script = "uid://doejhfgthu4ky"
+
+[node name="Ground" type="Node" parent="FiniteStateMachine" unique_id=1079416507]
+script = ExtResource("2_8q5c7")
+metadata/_custom_type_script = "uid://2y37yx57ooc4"
+
+[node name="Idle" type="Node" parent="FiniteStateMachine/Ground" unique_id=174773286]
+script = ExtResource("2_8q5c7")
+metadata/_custom_type_script = "uid://2y37yx57ooc4"
+
+[node name="Running" type="Node" parent="FiniteStateMachine/Ground" unique_id=755481664]
+script = ExtResource("2_8q5c7")
+metadata/_custom_type_script = "uid://2y37yx57ooc4"
+
+[node name="Air" type="Node" parent="FiniteStateMachine" unique_id=693949158]
+script = ExtResource("2_8q5c7")
+metadata/_custom_type_script = "uid://2y37yx57ooc4"
+
+[node name="Idle" type="Node" parent="FiniteStateMachine/Air" unique_id=649320103]
+script = ExtResource("2_8q5c7")
+metadata/_custom_type_script = "uid://2y37yx57ooc4"
+
+[node name="Flying" type="Node" parent="FiniteStateMachine/Air" unique_id=1325222070]
+script = ExtResource("2_8q5c7")
+metadata/_custom_type_script = "uid://2y37yx57ooc4"
+
+[node name="Flying2" type="Node" parent="FiniteStateMachine/Air" unique_id=1149395482]
+script = ExtResource("2_8q5c7")
+metadata/_custom_type_script = "uid://2y37yx57ooc4"
+
+[node name="Flying3" type="Node" parent="FiniteStateMachine/Air" unique_id=791722727]
+script = ExtResource("2_8q5c7")
+metadata/_custom_type_script = "uid://2y37yx57ooc4"
+
+[connection signal="item_selected" from="Tree" to="Tree" method="_on_item_selected"]

@@ -3,10 +3,12 @@
 ## Extend it with your own lifecycle funcs (enter, update, physics_update, exit).
 ##
 ## Use transition(to: String) to trigger state switches.
+@icon('state_icon.svg')
 class_name State
-extends Node
+extends FSM
 
-var _finite_state_machine: FiniteStateMachine
+@export_storage var _finite_state_machine: FiniteStateMachine
+@export_storage var id: String
 
 func enter():
 	pass
@@ -22,6 +24,10 @@ func physics_update(delta: float):
 func exit():
 	pass
 
-func transition(to: String):
+## Transition to the target State [br]
+## For Example: [br]
+## transition("RUN") [br]
+## transition("IN_AIR/JUMP") [br]
+func transition(to_id: String):
 	if _finite_state_machine:
-		_finite_state_machine.transition(to)
+		_finite_state_machine.transition(to_id)

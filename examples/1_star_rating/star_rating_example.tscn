@@ -79,9 +79,9 @@ horizontal_alignment = 1
 vertical_alignment = 1
 script = ExtResource("4_23i5y")
 
-[node name="FiniteStateMachine" type="Node" parent="." unique_id=186652333 node_paths=PackedStringArray("initial_state")]
+[node name="FiniteStateMachine" type="Node" parent="." unique_id=1807093940 node_paths=PackedStringArray("initial_state")]
 script = ExtResource("3_y87fe")
-initial_state = NodePath("3")
+initial_state = NodePath("5")
 metadata/_custom_type_script = "uid://doejhfgthu4ky"
 
 [node name="1" type="Node" parent="FiniteStateMachine" unique_id=781990116]
