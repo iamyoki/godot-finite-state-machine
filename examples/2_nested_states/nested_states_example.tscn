@@ -74,12 +74,4 @@ metadata/_custom_type_script = "uid://2y37yx57ooc4"
 script = ExtResource("2_8q5c7")
 metadata/_custom_type_script = "uid://2y37yx57ooc4"
 
-[node name="Flying2" type="Node" parent="FiniteStateMachine/Air" unique_id=1149395482]
-script = ExtResource("2_8q5c7")
-metadata/_custom_type_script = "uid://2y37yx57ooc4"
-
-[node name="Flying3" type="Node" parent="FiniteStateMachine/Air" unique_id=791722727]
-script = ExtResource("2_8q5c7")
-metadata/_custom_type_script = "uid://2y37yx57ooc4"
-
 [connection signal="item_selected" from="Tree" to="Tree" method="_on_item_selected"]
