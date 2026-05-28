@@ -46,8 +46,10 @@ hide_root = true
 script = ExtResource("1_qbqeo")
 
 [node name="FiniteStateMachine" type="Node" parent="." unique_id=2075670008 node_paths=PackedStringArray("initial_state")]
+process_mode = 4
 script = ExtResource("1_2n6lx")
 initial_state = NodePath("Ground/Idle")
+disabled = true
 metadata/_custom_type_script = "uid://doejhfgthu4ky"
 
 [node name="Ground" type="Node" parent="FiniteStateMachine" unique_id=1079416507]

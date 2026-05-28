@@ -29,4 +29,4 @@ func _ready() -> void:
 func _on_item_selected() -> void:
 	var item: TreeItem = get_selected()
 	var id = item.get_parent().get_text(0).path_join(item.get_text(0))
-	fsm.current_state.transition(id)
+	fsm.transition(id)

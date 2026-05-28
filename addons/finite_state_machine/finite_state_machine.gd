@@ -6,6 +6,12 @@ extends FSM
 
 @export var initial_state: State
 
+## Disable the machine, a very handy option during development.
+@export var disabled: bool:
+	set(value):
+		disabled = value
+		self.process_mode = Node.PROCESS_MODE_DISABLED if disabled else PROCESS_MODE_INHERIT
+
 var current_state: State
 var _states: Dictionary[String, State]
 
@@ -16,7 +22,7 @@ func _get_configuration_warnings() -> PackedStringArray:
 	var warnings = PackedStringArray()
 	
 	if get_children().is_empty():
-		warnings.append('Please add some State nodes, and extend the script to define it\'s lifecycle behavior')
+		warnings.append('Please add some "State" nodes, and extend the script to define it\'s lifecycle behavior')
 	
 	var stack = [['', self]] # [[parent_id, node]]
 	while not stack.is_empty():
@@ -58,6 +64,7 @@ func _enter_tree() -> void:
 				stack.append([id, child])
 
 func _ready() -> void:
+	if disabled: return
 	#enter at first
 	current_state = initial_state
 	if current_state and not Engine.is_editor_hint():
@@ -83,6 +90,7 @@ func _state_up_call(state_id: String, method_name: String, ...args: Array):
 		current_state_id = current_state_id.get_base_dir()
 
 func transition(to_id: String):
+	if disabled: return
 	var to_state: State = _states[to_id]
 	if to_state and to_state != current_state:
 		var from_state = current_state
@@ -92,11 +100,13 @@ func transition(to_id: String):
 		transitioned.emit(from_state, to_state)
 
 func _process(delta: float) -> void:
+	print('fsm process')
 	if Engine.is_editor_hint(): return
 	if current_state:
 		_state_down_call(current_state.id, 'update', delta)
 		
 func _physics_process(delta: float) -> void:
+	print('fsm physics process')
 	if Engine.is_editor_hint(): return
 	if current_state:
 		_state_down_call(current_state.id, 'physics_update', delta)
