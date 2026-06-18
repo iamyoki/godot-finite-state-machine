@@ -19,9 +19,9 @@ func _enter_tree() -> void:
 	
 	if !DirAccess.dir_exists_absolute("res://script_templates"):
 		DirAccess.make_dir_absolute("res://script_templates")
-		move_folder_contents("res://addons/godOSC/script_templates", "res://script_templates")
+		move_folder_contents("res://addons/finite_state_machine/script_templates", "res://script_templates")
 	else:
-		move_folder_contents("res://addons/godOSC/script_templates", "res://script_templates")
+		move_folder_contents("res://addons/finite_state_machine/script_templates", "res://script_templates")
 	
 	pass
 
