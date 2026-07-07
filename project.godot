@@ -12,7 +12,7 @@ config_version=5
 
 config/name="FiniteStateMachine"
 config/version="1.1.0"
-config/features=PackedStringArray("4.6", "Forward Plus")
+config/features=PackedStringArray("4.7", "Forward Plus")
 config/icon="uid://ugca2sw1olty"
 
 [display]

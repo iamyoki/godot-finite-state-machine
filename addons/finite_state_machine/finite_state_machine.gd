@@ -14,6 +14,7 @@ extends FSM
 
 var current_state: State
 var _states: Dictionary[String, State]
+var is_editor: bool = Engine.is_editor_hint()
 
 ## Notify when current state transitioned (from->to)
 signal transitioned(from: State, to: State)
@@ -45,7 +46,7 @@ func _get_configuration_warnings() -> PackedStringArray:
 	return warnings
 
 func _enter_tree() -> void:
-	if Engine.is_editor_hint(): return
+	if is_editor: return
 	var stack = [['', self]] # [[parent_id, node]]
 	while not stack.is_empty():
 		var pair = stack.pop_back()
@@ -67,23 +68,25 @@ func _ready() -> void:
 	if disabled: return
 	#enter at first
 	current_state = initial_state
-	if current_state and not Engine.is_editor_hint():
-		current_state.enter()
+	if current_state and not is_editor:
+		_state_down_call('', current_state.id, 'enter')
 
-func _state_down_call(state_id: String, method_name: String, ...args: Array):
-	if Engine.is_editor_hint(): return
-	var parts = state_id.split('/')
-	var current_id = ''
+func _state_down_call(from_state_id: String, to_state_id: String, method_name: String, ...args: Array):
+	if is_editor: return
+	var parts = to_state_id.split('/')
+	var current_state_id = ''
 	for p in parts:
-		current_id = current_id.path_join(p)
-		var state = _states[current_id]
+		current_state_id = current_state_id.path_join(p)
+		if from_state_id.begins_with(current_state_id):
+			continue
+		var state = _states[current_state_id]
 		if state:
 			state.callv(method_name, args)
 
-func _state_up_call(state_id: String, method_name: String, ...args: Array):
-	if Engine.is_editor_hint(): return
-	var current_state_id = state_id
-	while not current_state_id.is_empty():
+func _state_up_call(from_state_id: String, to_state_id: String, method_name: String, ...args: Array):
+	if is_editor: return
+	var current_state_id = from_state_id
+	while not current_state_id.is_empty() and current_state_id != to_state_id.get_base_dir():
 		var state = _states[current_state_id]
 		if state and state is State:
 			state.callv(method_name, args)
@@ -94,19 +97,17 @@ func transition(to_id: String):
 	var to_state: State = _states[to_id]
 	if to_state and to_state != current_state:
 		var from_state = current_state
-		current_state = to_state
-		_state_up_call(from_state.id, 'exit')
-		_state_down_call(to_state.id, 'enter')
+		_state_up_call(from_state.id, to_state.id, 'exit')
+		_state_down_call(from_state.id, to_state.id, 'enter')
 		transitioned.emit(from_state, to_state)
+		current_state = to_state
 
 func _process(delta: float) -> void:
-	print('fsm process')
-	if Engine.is_editor_hint(): return
+	if is_editor: return
 	if current_state:
-		_state_down_call(current_state.id, 'update', delta)
+		_state_down_call('', current_state.id, 'update', delta)
 		
 func _physics_process(delta: float) -> void:
-	print('fsm physics process')
-	if Engine.is_editor_hint(): return
+	if is_editor: return
 	if current_state:
-		_state_down_call(current_state.id, 'physics_update', delta)
+		_state_down_call('', current_state.id, 'physics_update', delta)

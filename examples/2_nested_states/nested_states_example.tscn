@@ -4,6 +4,32 @@
 [ext_resource type="Script" uid="uid://bmt6q87wbvh6h" path="res://examples/2_nested_states/tree.gd" id="1_qbqeo"]
 [ext_resource type="Script" uid="uid://2y37yx57ooc4" path="res://addons/finite_state_machine/state.gd" id="2_8q5c7"]
 
+[sub_resource type="GDScript" id="GDScript_8q5c7"]
+script/source = "#meta-name: State Default
+
+extends State
+
+# Runs once when state is entered
+func enter():
+
+	pass
+
+# Runs every process cycle
+func update(delta: float):
+
+	pass
+
+# Runs every physics process cycle
+func physics_update(delta: float):
+
+	pass
+
+# Runs once when state is exited
+func exit():
+
+	pass
+"
+
 [node name="NestedStatesExample" type="Control" unique_id=2072044019]
 layout_mode = 3
 anchors_preset = 15
@@ -74,6 +100,10 @@ metadata/_custom_type_script = "uid://2y37yx57ooc4"
 
 [node name="Flying" type="Node" parent="FiniteStateMachine/Air" unique_id=1325222070]
 script = ExtResource("2_8q5c7")
+metadata/_custom_type_script = "uid://2y37yx57ooc4"
+
+[node name="State" type="Node" parent="." unique_id=541467539]
+script = SubResource("GDScript_8q5c7")
 metadata/_custom_type_script = "uid://2y37yx57ooc4"
 
 [connection signal="item_selected" from="Tree" to="Tree" method="_on_item_selected"]
