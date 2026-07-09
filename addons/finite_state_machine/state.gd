@@ -29,5 +29,5 @@ func exit():
 ## transition("RUN") [br]
 ## transition("IN_AIR/JUMP") [br]
 func transition(to_id: String):
-	if _finite_state_machine:
+	if _finite_state_machine and _finite_state_machine.current_state == self:
 		_finite_state_machine.transition(to_id)

@@ -61,6 +61,13 @@ func _run() -> void:
 	state_enter_sequence.clear()
 	state_exit_sequence.clear()
 	
+	# p2_s1 to p2_s2, expect nothing changes
+	# because current state is not p2_s1, transition not allowd
+	state_p2_s1.transition('p2/p2_s2')
+	assert(fsm.current_state == state_p1_s1)
+	assert(state_enter_sequence == [])
+	assert(state_exit_sequence == [])
+	
 	# p1_s1 to p1_s2
 	fsm.transition('p1/p1_s2')
 	assert(state_enter_sequence == [state_p1_s2])
