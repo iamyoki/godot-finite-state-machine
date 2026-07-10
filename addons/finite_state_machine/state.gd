@@ -24,10 +24,8 @@ func physics_update(delta: float):
 func exit():
 	pass
 
-## Transition to the target State [br]
-## For Example: [br]
-## transition("RUN") [br]
-## transition("IN_AIR/JUMP") [br]
-func transition(to_id: String):
-	if _finite_state_machine and _finite_state_machine.current_state == self:
+## Transition to the target State. Only the current state or parent state can execute transitions unless [force] is enabled [br]
+func transition(to_id: String, force: bool = false):
+	var is_current_self_or_child: bool = _finite_state_machine.current_state == self or _finite_state_machine.current_state.id.begins_with(self.id)
+	if _finite_state_machine and is_current_self_or_child:
 		_finite_state_machine.transition(to_id)
