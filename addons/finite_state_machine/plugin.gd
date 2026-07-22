@@ -17,11 +17,16 @@ func _enter_tree() -> void:
 
 	# Check if script template folder exists, if not create it.
 	
+	
 	if !DirAccess.dir_exists_absolute("res://script_templates"):
 		DirAccess.make_dir_absolute("res://script_templates")
-		move_folder_contents("res://addons/finite_state_machine/script_templates", "res://script_templates")
+		
+
+	if DirAccess.dir_exists_absolute("res://script_templates/State"):
+		return
 	else:
 		move_folder_contents("res://addons/finite_state_machine/script_templates", "res://script_templates")
+		FileAccess.open("res://script_templates/.gdignore", FileAccess.WRITE)
 	
 	pass
 
@@ -58,7 +63,7 @@ func move_folder_contents(source_dir: String, target_dir: String):
 					var new_path = target_dir.path_join(file_name)
 					
 					# Move the file
-					DirAccess.rename_absolute(old_path, new_path)
+					DirAccess.copy_absolute(old_path, new_path)
 					
 			file_name = dir.get_next()
 		dir.list_dir_end()
