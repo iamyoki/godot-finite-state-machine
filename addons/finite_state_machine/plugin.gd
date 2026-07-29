@@ -20,12 +20,14 @@ func _enter_tree() -> void:
 	
 	if !DirAccess.dir_exists_absolute("res://script_templates"):
 		DirAccess.make_dir_absolute("res://script_templates")
+
 		
 
 	if DirAccess.dir_exists_absolute("res://script_templates/State"):
 		return
 	else:
-		move_folder_contents("res://addons/finite_state_machine/script_templates", "res://script_templates")
+		DirAccess.make_dir_absolute("res://script_templates/State")
+		move_folder_contents("res://addons/finite_state_machine/script_templates/State", "res://script_templates/State")
 		FileAccess.open("res://script_templates/.gdignore", FileAccess.WRITE)
 	
 	pass
